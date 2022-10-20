@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "tabsurvey"
+version = "0.1.0"
+description = ""
+authors = ["Antoine Desjardins <44445863+boumpteryx@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+scikit-learn = "^1.1.2"
+torch = "^1.12.1"
+pytorch-tabnet = "^4.0"
+optuna = {git = "https://github.com/optuna/optuna.git"}
+pandas = "^1.5.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

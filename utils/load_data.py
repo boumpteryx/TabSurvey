@@ -1,6 +1,8 @@
 import sklearn.datasets
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 
+from constrained_attacks import datasets
+
 import numpy as np
 import pandas as pd
 
@@ -104,6 +106,9 @@ def load_data(args):
 
         X = df.drop(label_col, axis=1).to_numpy()
         y = df[label_col].to_numpy()
+
+    elif args.dataset in ["url", "malware", "ctu_13_neris", "lcld_v2_time"]:
+        X, y = datasets.load_dataset(args.dataset).get_x_y()
 
     else:
         raise AttributeError("Dataset \"" + args.dataset + "\" not available")
