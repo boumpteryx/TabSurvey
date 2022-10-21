@@ -19,4 +19,4 @@ one_hot_encode: False
 
 # About the data
 num_classes: 1  # for classification
-num_features: 63
+num_features: 756

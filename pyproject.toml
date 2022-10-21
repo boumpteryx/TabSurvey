@@ -6,12 +6,15 @@ authors = ["Antoine Desjardins <44445863+boumpteryx@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "~3.8"
 scikit-learn = "^1.1.2"
 torch = "^1.12.1"
 pytorch-tabnet = "^4.0"
 optuna = {git = "https://github.com/optuna/optuna.git"}
 pandas = "^1.5.1"
+constrained-attacks = {git = "https://github.com/serval-uni-lu/constrained-attacks.git", branch="fast_moeva"}
+requests = "^2.28.1"
+ConfigArgParse = "^1.5.3"
 
 
 [build-system]
