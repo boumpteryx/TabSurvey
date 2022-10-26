@@ -3,6 +3,7 @@ import os
 import pickle
 import datetime
 import json
+import torch
 
 output_dir = "output/"
 
@@ -20,6 +21,9 @@ def save_predictions_to_file(arr, args, extension=""):
 def save_model_to_file(model, args, extension=""):
     filename = get_output_path(args, directory="models", filename="m", extension=extension, file_type="pkl")
     pickle.dump(model, open(filename, 'wb'))
+    filename = filename[:-3]
+    filename = filename + "pth"
+    torch.save(model, filename)
 
 
 def load_model_from_file(model, args, extension=""):

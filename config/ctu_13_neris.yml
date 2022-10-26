@@ -1,5 +1,5 @@
 # General parameters
-dataset: url
+dataset: ctu_13_neris
 objective: binary # Don't change
 
 # Optuna parameters - https://optuna.org/

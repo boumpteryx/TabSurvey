@@ -2,6 +2,7 @@ import logging
 import sys
 
 import optuna
+import torch
 
 from models import str2model
 from utils.load_data import load_data
@@ -49,6 +50,7 @@ def cross_validation(model, X, y, args, save_model=False):
         # Save model weights and the truth/prediction pairs for traceability
         curr_model.save_model_and_predictions(y_test, i)
 
+
         if save_model:
             save_loss_to_file(args, loss_history, "loss", extension=i)
             save_loss_to_file(args, val_loss_history, "val_loss", extension=i)
@@ -64,7 +66,7 @@ def cross_validation(model, X, y, args, save_model=False):
         print("Train time:", train_timer.get_average_time())
         print("Inference time:", test_timer.get_average_time())
 
-        # Save the all statistics to a file
+        # Save all the statistics to a file
         save_results_to_file(args, sc.get_results(),
                              train_timer.get_average_time(), test_timer.get_average_time(),
                              model.params)
@@ -134,6 +136,9 @@ def main_once(args):
     print(sc.get_results())
     print(time)
 
+all_models = ["LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
+               "MLP", "TabNet", "VIME", "TabTransformer", "NODE", "DeepGBM", "RLN", "DNFNet", "STG", "NAM", "DeepFM",
+               "SAINT", "DANet"] # , "CatBoost"
 
 if __name__ == "__main__":
     parser = get_parser()
@@ -141,7 +146,11 @@ if __name__ == "__main__":
     print(arguments)
 
     if arguments.optimize_hyperparameters:
-        main(arguments)
+        for model in all_models:
+            arguments.model_name = model
+            print("running ", arguments.model_name)
+            print("on ", arguments.dataset)
+            main(arguments)
     else:
         # Also load the best parameters
         parser = get_given_parameters_parser()

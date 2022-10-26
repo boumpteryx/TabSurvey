@@ -15,6 +15,10 @@ pandas = "^1.5.1"
 constrained-attacks = {git = "https://github.com/serval-uni-lu/constrained-attacks.git", branch="fast_moeva"}
 requests = "^2.28.1"
 ConfigArgParse = "^1.5.3"
+xgboost = "^1.6.2"
+catboost = "^1.1"
+lightgbm = "^3.3.3"
+modeltrees = {git = "https://github.com/schufa-innovationlab/model-trees"}
 
 
 [build-system]
