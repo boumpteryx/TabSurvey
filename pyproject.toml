@@ -19,6 +19,11 @@ xgboost = "^1.6.2"
 catboost = "^1.1"
 lightgbm = "^3.3.3"
 modeltrees = {git = "https://github.com/schufa-innovationlab/model-trees"}
+einops = "^0.5.0"
+keras = "^2.10.0"
+tensorflow = "^2.10.0"
+qhoptim = "^1.1.0"
+lifelines = "^0.27.3"
 
 
 [build-system]
