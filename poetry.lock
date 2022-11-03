@@ -942,7 +942,7 @@ test = ["codecov", "fakeredis[lua]", "fakeredis[lua] (<=1.7.1)", "kaleido", "pyt
 type = "git"
 url = "https://github.com/optuna/optuna.git"
 reference = "HEAD"
-resolved_reference = "2b8befe6fda8ca1290c1061b390ec2945377f530"
+resolved_reference = "964fba113bfd6d1c89ad50b210bea49d3a8a9dbd"
 
 [[package]]
 name = "packaging"
@@ -1746,6 +1746,17 @@ plotting = ["graphviz", "matplotlib"]
 scikit-learn = ["scikit-learn"]
 
 [[package]]
+name = "yacs"
+version = "0.1.8"
+description = "Yet Another Configuration System"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+PyYAML = "*"
+
+[[package]]
 name = "yarl"
 version = "1.8.1"
 description = "Yet another URL library"
@@ -1772,7 +1783,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.8"
-content-hash = "9c8a5722c50dae06c93db9fb2c83163f7bbbe94bfcb47040dd912c771d88b358"
+content-hash = "183f4c90fab21d7f738231c366b52490b3a756a98dec256d7b92263890576ca3"
 
 [metadata.files]
 absl-py = [
@@ -3306,6 +3317,11 @@ xgboost = [
     {file = "xgboost-1.6.2-py3-none-manylinux2014_x86_64.whl", hash = "sha256:ba0babafd72edcc12193f545331ce5ef8fbf0fd4f241fcd65e71aeb45b957fe6"},
     {file = "xgboost-1.6.2-py3-none-win_amd64.whl", hash = "sha256:1ce15d3292d6ee75be4491ff6463c76ca548b7d77ca70f707cb23ea051e2faf7"},
     {file = "xgboost-1.6.2.tar.gz", hash = "sha256:e1f5c91ba88cf8edb409d7fd2ca150dcd80b6f2115587d87365f0c10b2d4f009"},
+]
+yacs = [
+    {file = "yacs-0.1.8-py2-none-any.whl", hash = "sha256:d43d1854c1ffc4634c5b349d1c1120f86f05c3a294c9d141134f282961ab5d94"},
+    {file = "yacs-0.1.8-py3-none-any.whl", hash = "sha256:99f893e30497a4b66842821bac316386f7bd5c4f47ad35c9073ef089aa33af32"},
+    {file = "yacs-0.1.8.tar.gz", hash = "sha256:efc4c732942b3103bea904ee89af98bcd27d01f0ac12d8d4d369f1e7a2914384"},
 ]
 yarl = [
     {file = "yarl-1.8.1-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:abc06b97407868ef38f3d172762f4069323de52f2b70d133d096a48d72215d28"},

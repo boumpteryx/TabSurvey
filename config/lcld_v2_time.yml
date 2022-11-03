@@ -6,6 +6,14 @@ objective: binary # Don't change
 n_trials: 2
 direction: maximize
 
+# Training parameters
+early_stopping_rounds: 20
+
+# GPU parameters
+use_gpu: False
+gpu_ids: [0, 1]
+data_parallel: True
+
 # Cross validation parameters
 num_splits: 3
 shuffle: True

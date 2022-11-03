@@ -136,9 +136,9 @@ def main_once(args):
     print(sc.get_results())
     print(time)
 
-all_models = [ "NAM", "DeepFM",
-               "SAINT", "DANet", "NODE", "DNFNet"] # , "CatBoost", "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
-               # "MLP", "TabNet", "VIME", "TabTransformer","DeepGBM", "RLN", "STG",
+all_models = [ "DeepFM", "DANet", "NODE", "DNFNet", "CatBoost"] # , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
+               # "MLP", "TabNet", "VIME", "TabTransformer","DeepGBM", "RLN", "STG", "NAM",
+#                "SAINT",
 
 if __name__ == "__main__":
     parser = get_parser()
