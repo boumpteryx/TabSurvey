@@ -136,8 +136,8 @@ def main_once(args):
     print(sc.get_results())
     print(time)
 
-all_models = [ "DeepFM", "DANet", "NODE", "DNFNet", "CatBoost"] # , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
-               # "MLP", "TabNet", "VIME", "TabTransformer","DeepGBM", "RLN", "STG", "NAM",
+all_models = [ "DeepFM", "RLN",  "SAINT", "TabTransformer"] # , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
+               # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", ,  "DANet", "NODE", "DNFNet", "CatBoost"
 #                "SAINT",
 
 if __name__ == "__main__":
