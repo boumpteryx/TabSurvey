@@ -10,8 +10,8 @@ direction: maximize
 early_stopping_rounds: 20
 
 # GPU parameters
-use_gpu: False
-gpu_ids: [0, 1]
+use_gpu: True
+gpu_ids: [0]
 data_parallel: True
 
 # Cross validation parameters
