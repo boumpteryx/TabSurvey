@@ -138,7 +138,7 @@ def main_once(args):
 
 all_models = ["SAINT", "TabTransformer"] # , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
                # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", ,  "DANet", "NODE", "DNFNet", "CatBoost"
-#                "SAINT",  "RLN", 
+#                "SAINT",  "RLN",
 
 if __name__ == "__main__":
     parser = get_parser()
