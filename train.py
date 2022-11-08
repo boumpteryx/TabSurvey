@@ -136,7 +136,7 @@ def main_once(args):
     print(sc.get_results())
     print(time)
 
-all_models = ["VIME"] # , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
+all_models = ["RLN"] # , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
                # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", ,  "DANet", "NODE", "DNFNet", "CatBoost"
 #                "SAINT",  "RLN",
 
