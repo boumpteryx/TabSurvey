@@ -34,8 +34,8 @@ def get_parser():
     parser.add('--target_encode', action="store_true", help="Encode the targets that they start at 0. (0, 1, 2,...)")
     parser.add('--one_hot_encode', action="store_true", help="OneHotEncode the categorical features")
 
-    parser.add('--batch_size', type=int, default=128, help="Batch size used for training")
-    parser.add('--val_batch_size', type=int, default=128, help="Batch size used for training and testing")
+    parser.add('--batch_size', type=int, default=32, help="Batch size used for training")
+    parser.add('--val_batch_size', type=int, default=32, help="Batch size used for training and testing")
     parser.add('--early_stopping_rounds', type=int, default=20, help="Number of rounds before early stopping applies.")
     parser.add('--epochs', type=int, default=1000, help="Max number of epochs to train.")
     parser.add('--logging_period', type=int, default=100, help="Number of iteration after which validation is printed.")
