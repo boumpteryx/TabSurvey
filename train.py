@@ -49,6 +49,7 @@ def cross_validation(model, X, y, args, save_model=False):
 
         # Save model weights and the truth/prediction pairs for traceability
         curr_model.save_model_and_predictions(y_test, i)
+        torch.save(curr_model, "model_" + args.dataset + "_" + args.model_name + "_test.pt")
 
 
         if save_model:
@@ -136,9 +137,9 @@ def main_once(args):
     print(sc.get_results())
     print(time)
 
-all_models = ["VIME"] # , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
+all_models = ["LinearModel", "DeepFM", "RLN", "TabTranformer"] # , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
                # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", ,  "DANet", "NODE", "DNFNet", "CatBoost"
-#                "SAINT",  "RLN",
+#                "SAINT",  "VIME",
 
 if __name__ == "__main__":
     parser = get_parser()

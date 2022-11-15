@@ -28,3 +28,4 @@ one_hot_encode: False
 # About the data
 num_classes: 1  # for classification
 num_features: 28
+cat_idx: [7,9,11,18,19]

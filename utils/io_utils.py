@@ -22,7 +22,7 @@ def save_model_to_file(model, args, extension=""):
     filename = get_output_path(args, directory="models", filename="m", extension=extension, file_type="pkl")
     pickle.dump(model, open(filename, 'wb'))
     filename = filename[:-3]
-    filename = filename + "pth"
+    filename = filename + "pt"
     torch.save(model, filename)
 
 
