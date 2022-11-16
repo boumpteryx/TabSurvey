@@ -49,7 +49,6 @@ def cross_validation(model, X, y, args, save_model=False):
 
         # Save model weights and the truth/prediction pairs for traceability
         curr_model.save_model_and_predictions(y_test, i)
-        torch.save(curr_model, "model_" + args.dataset + "_" + args.model_name + "_test.pt")
 
 
         if save_model:
@@ -72,6 +71,11 @@ def cross_validation(model, X, y, args, save_model=False):
                              train_timer.get_average_time(), test_timer.get_average_time(),
                              model.params)
 
+    torch.save(curr_model, "output_final/model_" + args.dataset + "_" + args.model_name + "_final.pt")
+    f = open("output_final/model_" + args.dataset + "_" + args.model_name + "_params.json", "w")
+    f.write(str(curr_model.params))
+    f.close()
+    # torch.save(curr_model.params, "output_final/model_" + args.dataset + "_" + args.model_name + "_params.json")
     # print("Finished cross validation")
     return sc, (train_timer.get_average_time(), test_timer.get_average_time())
 
