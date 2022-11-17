@@ -29,3 +29,4 @@ one_hot_encode: False
 num_classes: 1  # for classification
 num_features: 28
 cat_idx: [7,9,11,18,19]
+cat_dims: [54658,14,83,39,12]
