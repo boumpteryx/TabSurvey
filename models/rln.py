@@ -6,6 +6,7 @@ from keras.callbacks import Callback, EarlyStopping
 from keras import backend as K
 from pandas import DataFrame
 import numpy as np
+import torch
 
 from keras.wrappers.scikit_learn import KerasRegressor, KerasClassifier
 from keras import regularizers
@@ -14,16 +15,49 @@ from keras.layers import Dense
 
 from utils.io_utils import get_output_path
 
+# from tensorflow.python.ops.numpy_ops import np_config
+# np_config.enable_numpy_behavior()
+
 '''
     Regularization Learning Networks: Deep Learning for Tabular Datasets (https://arxiv.org/abs/1805.06440)
 
     Code adapted from: https://github.com/irashavitt/regularization_learning_networks
 '''
+
+
+class BalancedBCELoss(torch.nn.BCEWithLogitsLoss):
+
+    def __init__(self, dataset, **args):
+        self.weights = None
+        if dataset in ["url", "malware", "ctu_13_neris", "lcld_v2_time"]:
+            from constrained_attacks import datasets
+            _, y = datasets.load_dataset(dataset).get_x_y()
+            y = np.array(y)
+            y_class, y_occ = np.unique(y, return_counts=True)
+            self.weights = dict(zip(y_class, y_occ / len(y)))
+            print(self.weights)
+        super(BalancedBCELoss, self).__init__(**args)
+
+    def forward(self, input: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+
+        if self.weights is None:
+            return super(BalancedBCELoss, self).forward(input, target)
+
+        negative_inputs_mask = (target == 0)
+        positive_inputs_mask = (target == 1)
+
+        positive_inputs, positive_targets = input[positive_inputs_mask], input[positive_inputs_mask]
+        positive_loss = super(BalancedBCELoss, self).forward(positive_inputs, positive_targets)
+        negative_inputs, negative_targets = input[negative_inputs_mask], input[negative_inputs_mask]
+        negative_loss = super(BalancedBCELoss, self).forward(negative_inputs, negative_targets)
+
+        return positive_loss / self.weights.get(1) + negative_loss / self.weights.get(0)
+
 class RLN(BaseModel):
 
     def __init__(self, params, args):
         super().__init__(params, args)
-
+        self.dataset = args.dataset
         lr = np.power(10, self.params["log_lr"])
         build_fn = self.RLN_Model(layers=self.params["layers"], norm=self.params["norm"],
                                   avg_reg=self.params["theta"], learning_rate=lr)
@@ -125,7 +159,8 @@ class RLN(BaseModel):
             loss_fn = "categorical_crossentropy"
             act_fn = "softmax"
         elif self.args.objective == "binary":
-            loss_fn = "binary_crossentropy"
+            #loss_fn = "binary_crossentropy"
+            loss_fn = BalancedBCELoss(self.dataset)
             act_fn = "sigmoid"
 
         def build_fn():
