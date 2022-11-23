@@ -15,8 +15,8 @@ from keras.layers import Dense
 
 from utils.io_utils import get_output_path
 
-# from tensorflow.python.ops.numpy_ops import np_config
-# np_config.enable_numpy_behavior()
+from tensorflow.python.ops.numpy_ops import np_config
+np_config.enable_numpy_behavior()
 
 '''
     Regularization Learning Networks: Deep Learning for Tabular Datasets (https://arxiv.org/abs/1805.06440)
@@ -35,7 +35,7 @@ class BalancedBCELoss(torch.nn.BCEWithLogitsLoss):
             y = np.array(y)
             y_class, y_occ = np.unique(y, return_counts=True)
             self.weights = dict(zip(y_class, y_occ / len(y)))
-            print(self.weights)
+            print("weights: ", self.weights)
         super(BalancedBCELoss, self).__init__(**args)
 
     def forward(self, input: torch.Tensor, target: torch.Tensor) -> torch.Tensor:

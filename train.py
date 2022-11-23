@@ -140,7 +140,7 @@ def main_once(args):
     print(sc.get_results())
     print(time)
 
-all_models = ["DeepFM"] # "LinearModel", "DeepFM", "RLN", , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
+all_models = ["TabTransformer"] # "LinearModel", "DeepFM", "RLN", , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
                # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", ,  "DANet", "NODE", "DNFNet", "CatBoost"
 #                "SAINT",  "VIME",
 
@@ -150,8 +150,13 @@ if __name__ == "__main__":
     print(arguments)
 
     if arguments.optimize_hyperparameters:
-        for model in all_models:
-            arguments.model_name = model
+        if len(all_models) > 1:
+            for model in all_models:
+                arguments.model_name = model
+                print("running ", arguments.model_name)
+                print("on ", arguments.dataset)
+                main(arguments)
+        else:
             print("running ", arguments.model_name)
             print("on ", arguments.dataset)
             main(arguments)
