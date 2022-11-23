@@ -107,7 +107,7 @@ class TabTransformer(BaseModelTorch):
         self.batch_size = self.args.batch_size if args.num_features < 50 else 64
 
         print("Using dim %d and batch size %d" % (dim, self.batch_size))
-        self.dataset =args.dataset
+        self.dataset = args.dataset
 
         self.model = TabTransformerModel(
             categories=categories_unique,  # tuple (or list?) containing the number of unique values in each category

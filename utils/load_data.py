@@ -138,6 +138,7 @@ def load_data(args):
 
             # Setting this?
             args.cat_dims.append(len(le.classes_))
+            print("cat_dim = ", len(le.classes_))
 
         else:
             num_idx.append(i)

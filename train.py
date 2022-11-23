@@ -70,13 +70,12 @@ def cross_validation(model, X, y, args, save_model=False):
         save_results_to_file(args, sc.get_results(),
                              train_timer.get_average_time(), test_timer.get_average_time(),
                              model.params)
+    if args.model_name != "RLN":
+        f = open("output_final/model_" + args.dataset + "_" + args.model_name + "_params.json", "w")
+        f.write(str(curr_model.params))
+        f.close()
+        torch.save(curr_model, "output_final/model_" + args.dataset + "_" + args.model_name + "_final.pt")
 
-    torch.save(curr_model, "output_final/model_" + args.dataset + "_" + args.model_name + "_final.pt")
-    f = open("output_final/model_" + args.dataset + "_" + args.model_name + "_params.json", "w")
-    f.write(str(curr_model.params))
-    f.close()
-    # torch.save(curr_model.params, "output_final/model_" + args.dataset + "_" + args.model_name + "_params.json")
-    # print("Finished cross validation")
     return sc, (train_timer.get_average_time(), test_timer.get_average_time())
 
 
@@ -141,7 +140,7 @@ def main_once(args):
     print(sc.get_results())
     print(time)
 
-all_models = ["LinearModel", "DeepFM", "RLN", "TabTranformer"] # , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
+all_models = ["TabTransformer"] # "LinearModel", "DeepFM", "RLN", , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
                # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", ,  "DANet", "NODE", "DNFNet", "CatBoost"
 #                "SAINT",  "VIME",
 
@@ -151,8 +150,13 @@ if __name__ == "__main__":
     print(arguments)
 
     if arguments.optimize_hyperparameters:
-        for model in all_models:
-            arguments.model_name = model
+        if len(all_models) > 1:
+            for model in all_models:
+                arguments.model_name = model
+                print("running ", arguments.model_name)
+                print("on ", arguments.dataset)
+                main(arguments)
+        else:
             print("running ", arguments.model_name)
             print("on ", arguments.dataset)
             main(arguments)
