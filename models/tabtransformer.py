@@ -105,7 +105,7 @@ class TabTransformer(BaseModelTorch):
         elif self.args.objective == "classification":
             loss_func = nn.CrossEntropyLoss()
         else:
-            loss_func = BalancedBCELoss(self.dataset)
+            loss_func = BalancedBCELossPytorch(self.dataset)
             y = y.float()
             y_val = y_val.float()
 
