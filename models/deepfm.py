@@ -5,6 +5,7 @@ import numpy as np
 from .basemodel_torch import BaseModelTorch
 from .deepfm_lib.models.deepfm import DeepFM as DeepFMModel
 from .deepfm_lib.inputs import SparseFeat, DenseFeat
+from utils.losses import BalancedBCELossPytorch as BalancedBCELoss
 
 '''
     DeepFM: A Factorization-Machine based Neural Network for CTR Prediction
@@ -12,36 +13,6 @@ from .deepfm_lib.inputs import SparseFeat, DenseFeat
      
     Code adapted from: https://github.com/shenweichen/DeepCTR-Torch
 '''
-
-class BalancedBCELoss(torch.nn.BCEWithLogitsLoss):
-
-    def __init__(self, dataset, **args):
-        self.weights = None
-        if dataset in ["url", "malware", "ctu_13_neris", "lcld_v2_time"]:
-            from constrained_attacks import datasets
-            _, y = datasets.load_dataset(dataset).get_x_y()
-            y = np.array(y)
-            y_class, y_occ = np.unique(y, return_counts=True)
-            self.weights = dict(zip(y_class, y_occ / len(y)))
-            print(self.weights)
-        super(BalancedBCELoss, self).__init__(**args)
-
-    def forward(self, input: torch.Tensor, target: torch.Tensor, reduction=None) -> torch.Tensor:
-
-        if self.weights is None:
-            return super(BalancedBCELoss, self).forward(input, target)
-
-        negative_inputs_mask = (target == 0)
-        positive_inputs_mask = (target == 1)
-
-        positive_inputs, positive_targets = input[positive_inputs_mask], input[positive_inputs_mask]
-        positive_loss = super(BalancedBCELoss, self).forward(positive_inputs, positive_targets)
-        negative_inputs, negative_targets = input[negative_inputs_mask], input[negative_inputs_mask]
-        negative_loss = super(BalancedBCELoss, self).forward(negative_inputs, negative_targets)
-
-        return positive_loss / self.weights.get(1) + negative_loss / self.weights.get(0)
-
-
 
 class DeepFM(BaseModelTorch):
 
