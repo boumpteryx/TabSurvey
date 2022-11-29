@@ -134,7 +134,7 @@ class RLN(BaseModel):
             act_fn = "softmax"
         elif self.args.objective == "binary":
             #loss_fn = "binary_crossentropy"
-            loss_fn = BalancedBCELossKeras(self.dataset,)
+            loss_fn = BalancedBCELossKeras(self.dataset)
             act_fn = "sigmoid"
 
         def build_fn():
