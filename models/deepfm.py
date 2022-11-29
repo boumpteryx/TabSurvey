@@ -78,7 +78,7 @@ class DeepFM(BaseModelTorch):
 
         if self.args.objective == "binary":
             loss = "binary_crossentropy"
-            loss = BalancedBCELoss(self.dataset)
+            # loss = BalancedBCELoss(self.dataset)
             metric = "binary_crossentropy"
             labels = [0, 1]
         elif self.args.objective == "regression":

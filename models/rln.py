@@ -70,7 +70,7 @@ class BalancedBCELossKeras(keras.losses.Loss):
             ce = positive_loss / self.weights.get(1) + negative_loss / self.weights.get(0)
 
 
-            """positive_inputs, positive_targets = input[positive_inputs_mask], input[positive_inputs_mask]
+            positive_inputs, positive_targets = input[positive_inputs_mask], input[positive_inputs_mask]
             print(tf.compat.v1.Session().run(positive_inputs))
             if not tf.equal(tf.size(positive_inputs), 0):
                 positive_loss = tf.losses.binary_crossentropy(positive_inputs, positive_targets,
@@ -80,7 +80,7 @@ class BalancedBCELossKeras(keras.losses.Loss):
             if not tf.equal(tf.size(negative_inputs), 0):
                 negative_loss = tf.losses.binary_crossentropy(negative_inputs, negative_targets,
                                                               from_logits=self.from_logits)[:, None]
-                ce += negative_loss / self.weights.get(0)"""
+                ce += negative_loss / self.weights.get(0)
 
         return ce
 
