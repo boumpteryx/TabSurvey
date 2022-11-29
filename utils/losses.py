@@ -73,7 +73,8 @@ class BalancedBCELossPytorch(torch.nn.BCEWithLogitsLoss):
             _, y = datasets.load_dataset(dataset).get_x_y()
             y = np.array(y)
             y_class, y_occ = np.unique(y, return_counts=True)
-            self.weights = dict(zip(y_class, y_occ / len(y)))
+            y_occ = (y_occ.max() -y_occ + y_occ.mean())
+            self.weights = dict(zip(y_class, y_occ/y_occ.max()))
 
         super(BalancedBCELossPytorch, self).__init__(**args)
 
@@ -90,6 +91,5 @@ class BalancedBCELossPytorch(torch.nn.BCEWithLogitsLoss):
         negative_inputs, negative_targets = input[negative_inputs_mask], input[negative_inputs_mask]
         negative_loss = super(BalancedBCELossPytorch, self).forward(negative_inputs, negative_targets)
 
-
-        return positive_loss / self.weights.get(1) + negative_loss / self.weights.get(0)
+        return positive_loss * self.weights.get(1) + negative_loss * self.weights.get(0)
 
