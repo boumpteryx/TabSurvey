@@ -21,7 +21,7 @@ seed: 221 # Don't change
 
 # Preprocessing parameters
 scale: True
-target_encode: True
+target_encode: False
 one_hot_encode: False
 
 
