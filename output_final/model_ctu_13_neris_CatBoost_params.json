@@ -1,0 +1,1 @@
+{'l2_leaf_reg': 1.5519931990967153, 'learning_rate': 0.12763650566810783, 'max_depth': 2, 'iterations': 1000, 'od_type': 'Iter', 'od_wait': 20, 'verbose': 100, 'train_dir': 'output/CatBoost/ctu_13_neris/catboost_info', 'cat_features': None}

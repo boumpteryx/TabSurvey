@@ -1,0 +1,1 @@
+{'l2_leaf_reg': 2.9989155395497713, 'learning_rate': 0.1233204198515684, 'max_depth': 6, 'iterations': 1000, 'od_type': 'Iter', 'od_wait': 20, 'verbose': 100, 'train_dir': 'output/CatBoost/lcld_v2_time/catboost_info', 'cat_features': [7, 9, 11, 18, 19]}
