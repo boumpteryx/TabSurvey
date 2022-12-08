@@ -1,21 +1,18 @@
 # General parameters
-dataset: malware
+dataset: wids
 objective: binary # Don't change
 
 # Optuna parameters - https://optuna.org/
 n_trials: 2
 direction: maximize
 
+# GPU parameters
+use_gpu: True
+gpu_ids: [0]
+data_parallel: True
+
 # Training parameters
 early_stopping_rounds: 20
-
-# Training parameters
-batch_size: 256
-
-# GPU parameters
-use_gpu: False
-gpu_ids: [0,1]
-data_parallel: True
 
 # Cross validation parameters
 num_splits: 3
@@ -30,5 +27,5 @@ one_hot_encode: False
 
 # About the data
 num_classes: 1  # for classification
-num_features: 24222
+num_features: 109
 cat_idx: []

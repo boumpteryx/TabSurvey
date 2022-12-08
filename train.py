@@ -13,6 +13,8 @@ from utils.parser import get_parser, get_given_parameters_parser
 
 from sklearn.model_selection import KFold, StratifiedKFold  # , train_test_split
 
+from comet_ml import Experiment
+
 
 def cross_validation(model, X, y, args, save_model=False):
     # Record some statistics and metrics
