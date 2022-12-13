@@ -7,7 +7,7 @@ n_trials: 2
 direction: maximize
 
 # GPU parameters
-use_gpu: True
+use_gpu: False
 gpu_ids: [0]
 data_parallel: True
 
@@ -27,5 +27,5 @@ one_hot_encode: False
 
 # About the data
 num_classes: 1  # for classification
-num_features: 109
+num_features: 108
 cat_idx: []

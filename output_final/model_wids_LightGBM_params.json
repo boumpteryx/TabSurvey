@@ -1,0 +1,1 @@
+{'lambda_l1': 6.222104081721057e-05, 'lambda_l2': 0.0001240760125496429, 'learning_rate': 0.05261753377244373, 'num_leaves': 5, 'verbosity': -1, 'objective': 'binary', 'metric': 'auc'}
