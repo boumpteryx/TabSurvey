@@ -143,7 +143,7 @@ def main_once(args):
     print(time)
 
 all_models = ["CatBoost"] # "LinearModel", "DeepFM", "RLN", , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
-               # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", ,  "DANet", "NODE", "DNFNet", "CatBoost"
+               # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", "DANet", "NODE", "DNFNet", "CatBoost"
 #                "SAINT",  "VIME", "TabTransformer"
 
 if __name__ == "__main__":
