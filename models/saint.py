@@ -181,36 +181,42 @@ class SAINT(BaseModelTorch):
         self.load_model(filename_extension="best", directory="tmp")
         return loss_history, val_loss_history
 
-    def predict_helper(self, X):
-        X = {'data': X, 'mask': np.ones_like(X)}
-        y = {'data': np.ones((X['data'].shape[0], 1))}
+    def predict_helper(self, X, keep_grad=False):
+        if keep_grad:
+            X_encoded = X
+            if self.args.objective == "binary":
+                predictions = torch.sigmoid(self.model(X_encoded))
+            return predictions
+        else:
+            X = {'data': X, 'mask': np.ones_like(X)}
+            y = {'data': np.ones((X['data'].shape[0], 1))}
 
-        test_ds = DataSetCatCon(X, y, self.args.cat_idx, self.args.objective)
-        testloader = DataLoader(test_ds, batch_size=self.args.val_batch_size, shuffle=False, num_workers=4)
+            test_ds = DataSetCatCon(X, y, self.args.cat_idx, self.args.objective)
+            testloader = DataLoader(test_ds, batch_size=self.args.val_batch_size, shuffle=False, num_workers=4)
 
-        self.model.eval()
+            self.model.eval()
 
-        predictions = []
+            predictions = []
 
-        with torch.no_grad():
-            for data in testloader:
-                x_categ, x_cont, y_gts, cat_mask, con_mask = data
+            with torch.no_grad():
+                for data in testloader:
+                    x_categ, x_cont, y_gts, cat_mask, con_mask = data
 
-                x_categ, x_cont = x_categ.to(self.device), x_cont.to(self.device)
-                cat_mask, con_mask = cat_mask.to(self.device), con_mask.to(self.device)
+                    x_categ, x_cont = x_categ.to(self.device), x_cont.to(self.device)
+                    cat_mask, con_mask = cat_mask.to(self.device), con_mask.to(self.device)
 
-                _, x_categ_enc, x_cont_enc = embed_data_mask(x_categ, x_cont, cat_mask, con_mask, self.model)
-                reps = self.model.transformer(x_categ_enc, x_cont_enc)
-                y_reps = reps[:, 0, :]
-                y_outs = self.model.mlpfory(y_reps)
+                    _, x_categ_enc, x_cont_enc = embed_data_mask(x_categ, x_cont, cat_mask, con_mask, self.model)
+                    reps = self.model.transformer(x_categ_enc, x_cont_enc)
+                    y_reps = reps[:, 0, :]
+                    y_outs = self.model.mlpfory(y_reps)
 
-                if self.args.objective == "binary":
-                    y_outs = torch.sigmoid(y_outs)
-                elif self.args.objective == "classification":
-                    y_outs = F.softmax(y_outs, dim=1)
+                    if self.args.objective == "binary":
+                        y_outs = torch.sigmoid(y_outs)
+                    elif self.args.objective == "classification":
+                        y_outs = F.softmax(y_outs, dim=1)
 
-                predictions.append(y_outs.detach().cpu().numpy())
-        return np.concatenate(predictions)
+                    predictions.append(y_outs.detach().cpu().numpy())
+            return np.concatenate(predictions)
 
     def attribute(self, X, y, strategy=""):
         """ Generate feature attributions for the model input.

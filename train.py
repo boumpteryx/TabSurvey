@@ -13,6 +13,8 @@ from utils.parser import get_parser, get_given_parameters_parser
 
 from sklearn.model_selection import KFold, StratifiedKFold  # , train_test_split
 
+from comet_ml import Experiment
+
 
 def cross_validation(model, X, y, args, save_model=False):
     # Record some statistics and metrics
@@ -140,8 +142,8 @@ def main_once(args):
     print(sc.get_results())
     print(time)
 
-all_models = ["LinearModel"] # "LinearModel", "DeepFM", "RLN", , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
-               # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", ,  "DANet", "NODE", "DNFNet", "CatBoost"
+all_models = ["CatBoost"] # "LinearModel", "DeepFM", "RLN", , "LinearModel", "KNN", "DecisionTree", "RandomForest", "XGBoost", "LightGBM", "ModelTree",
+               # "MLP", "TabNet", "VIME", ,"DeepGBM", "STG", "NAM", "DANet", "NODE", "DNFNet", "CatBoost"
 #                "SAINT",  "VIME", "TabTransformer"
 
 if __name__ == "__main__":

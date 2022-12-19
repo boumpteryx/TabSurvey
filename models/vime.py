@@ -53,29 +53,39 @@ class VIME(BaseModelTorch):
         self.load_model(filename_extension="best", directory="tmp")
         return loss_history, val_loss_history
 
-    def predict_helper(self, X):
+    def predict_helper(self, X, keep_grad=False):
         self.model_self.eval()
         self.model_semi.eval()
 
-        X = np.array(X, dtype=np.float)
-        X = torch.tensor(X).float()
+        if keep_grad:
+            X_encoded = self.encoder_layer(X.to(self.device))
+            preds = self.model_semi(X_encoded)
 
-        test_dataset = TensorDataset(X)
-        test_loader = DataLoader(dataset=test_dataset, batch_size=self.args.val_batch_size, shuffle=False,
-                                 num_workers=2)
+            if self.args.objective == "binary":
+                preds = torch.sigmoid(preds)
 
-        predictions = []
+            return preds
+        else:
 
-        with torch.no_grad():
-            for batch_X in test_loader:
-                X_encoded = self.encoder_layer(batch_X[0].to(self.device))
-                preds = self.model_semi(X_encoded)
+            X = np.array(X, dtype=np.float)
+            X = torch.tensor(X).float()
 
-                if self.args.objective == "binary":
-                    preds = torch.sigmoid(preds)
+            test_dataset = TensorDataset(X)
+            test_loader = DataLoader(dataset=test_dataset, batch_size=self.args.val_batch_size, shuffle=False,
+                                     num_workers=2)
 
-                predictions.append(preds.detach().cpu().numpy())
-        return np.concatenate(predictions)
+            predictions = []
+
+            with torch.no_grad():
+                for batch_X in test_loader:
+                    X_encoded = self.encoder_layer(batch_X[0].to(self.device))
+                    preds = self.model_semi(X_encoded)
+
+                    if self.args.objective == "binary":
+                        preds = torch.sigmoid(preds)
+
+                    predictions.append(preds.detach().cpu().numpy())
+            return np.concatenate(predictions)
 
     @classmethod
     def define_trial_parameters(cls, trial, args):

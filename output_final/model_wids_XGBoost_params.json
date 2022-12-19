@@ -1,0 +1,1 @@
+{'alpha': 0.7792092587992535, 'eta': 0.03040041563395866, 'lambda': 0.14947096253787542, 'max_depth': 3, 'verbosity': 1, 'objective': 'binary:logistic', 'eval_metric': 'auc'}

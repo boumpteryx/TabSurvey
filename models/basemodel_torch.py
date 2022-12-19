@@ -121,14 +121,14 @@ class BaseModelTorch(BaseModel):
         loss.backward()
         optimizer.step()
 
-    def predict(self, X):
+    def predict(self, X, return_torch=False):
         if self.args.objective == "regression":
             self.predictions = self.predict_helper(X)
         else:
             self.predict_proba(X)
             self.predictions = np.argmax(self.prediction_probabilities, axis=1)
 
-        return self.predictions
+        return torch.Tensor(self.predictions) if return_torch else self.predictions
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
         probas = self.predict_helper(X)
@@ -140,7 +140,11 @@ class BaseModelTorch(BaseModel):
         self.prediction_probabilities = probas
         return self.prediction_probabilities
 
-    def predict_helper(self, X):
+    def predict_torch(self, X):
+
+        return self.predict_helper(X.to(self.device), True)
+
+    def predict_helper(self, X, keep_grad=False):
         self.model.eval()
 
         X = torch.tensor(X).float()

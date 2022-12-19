@@ -3,7 +3,7 @@ import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 
 from models.basemodel_torch import BaseModelTorch
-from utils.losses import BalancedBCELossPytorch
+
 import numpy as np
 
 '''
@@ -11,6 +11,7 @@ import numpy as np
     
     Code adapted from: https://github.com/lucidrains/tab-transformer-pytorch
 '''
+
 
 class TabTransformer(BaseModelTorch):
 
@@ -33,7 +34,6 @@ class TabTransformer(BaseModelTorch):
         self.batch_size = self.args.batch_size if args.num_features < 50 else 64
 
         print("Using dim %d and batch size %d" % (dim, self.batch_size))
-        self.dataset = args.dataset
 
         self.model = TabTransformerModel(
             categories=categories_unique,  # tuple (or list?) containing the number of unique values in each category
@@ -72,8 +72,7 @@ class TabTransformer(BaseModelTorch):
         elif self.args.objective == "classification":
             loss_func = nn.CrossEntropyLoss()
         else:
-            loss_func = nn.BCEWithLogitsLoss() #
-            loss_func = BalancedBCELossPytorch(self.dataset)
+            loss_func = nn.BCEWithLogitsLoss()
             y = y.float()
             y_val = y_val.float()
 
@@ -151,29 +150,42 @@ class TabTransformer(BaseModelTorch):
         self.load_model(filename_extension="best", directory="tmp")
         return loss_history, val_loss_history
 
-    def predict_helper(self, X):
+    def predict_helper(self, X, keep_grad=False):
         self.model.eval()
-        X = np.array(X, dtype=np.float)
-        X = torch.tensor(X).float()
 
-        test_dataset = TensorDataset(X)
-        test_loader = DataLoader(dataset=test_dataset, batch_size=self.args.val_batch_size, shuffle=False,
-                                 num_workers=2)
+        if keep_grad:
+            x_categ = X[:, self.args.cat_idx].int().to(self.device) if self.args.cat_idx else None
+            x_cont = X[:, self.num_idx].to(self.device)
 
-        predictions = []
+            preds = self.model(x_categ, x_cont)
 
-        with torch.no_grad():
-            for batch_X in test_loader:
-                x_categ = batch_X[0][:, self.args.cat_idx].int().to(self.device) if self.args.cat_idx else None
-                x_cont = batch_X[0][:, self.num_idx].to(self.device)
+            if self.args.objective == "binary":
+                preds = torch.sigmoid(preds)
 
-                preds = self.model(x_categ, x_cont)
+            return preds
+        else:
 
-                if self.args.objective == "binary":
-                    preds = torch.sigmoid(preds)
+            X = np.array(X, dtype=np.float)
+            X = torch.tensor(X).float()
 
-                predictions.append(preds.cpu())
-        return np.concatenate(predictions)
+            test_dataset = TensorDataset(X)
+            test_loader = DataLoader(dataset=test_dataset, batch_size=self.args.val_batch_size, shuffle=False,
+                                     num_workers=2)
+
+            predictions = []
+
+            with torch.no_grad():
+                for batch_X in test_loader:
+                    x_categ = batch_X[0][:, self.args.cat_idx].int().to(self.device) if self.args.cat_idx else None
+                    x_cont = batch_X[0][:, self.num_idx].to(self.device)
+
+                    preds = self.model(x_categ, x_cont)
+
+                    if self.args.objective == "binary":
+                        preds = torch.sigmoid(preds)
+
+                    predictions.append(preds.cpu())
+            return np.concatenate(predictions)
 
     @classmethod
     def define_trial_parameters(cls, trial, args):

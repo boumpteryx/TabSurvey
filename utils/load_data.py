@@ -107,7 +107,7 @@ def load_data(args):
         X = df.drop(label_col, axis=1).to_numpy()
         y = df[label_col].to_numpy()
 
-    elif args.dataset in ["url", "malware", "ctu_13_neris", "lcld_v2_time"]:
+    elif args.dataset in ["url", "malware", "ctu_13_neris", "lcld_v2_time", "wids"]:
         X, y = datasets.load_dataset(args.dataset).get_x_y()
         X, y = np.array(X), np.array(y)
 
