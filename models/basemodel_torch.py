@@ -9,6 +9,7 @@ import numpy as np
 
 from utils.io_utils import get_output_path
 
+from utils.losses import BalancedBCELossPytorch
 
 class BaseModelTorch(BaseModel):
 
@@ -52,6 +53,7 @@ class BaseModelTorch(BaseModel):
             loss_func = nn.CrossEntropyLoss()
         else:
             loss_func = nn.BCEWithLogitsLoss()
+            loss_func = BalancedBCELossPytorch(self.dataset)
             y = y.float()
             y_val = y_val.float()
 
