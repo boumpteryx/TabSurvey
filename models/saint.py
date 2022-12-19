@@ -188,6 +188,8 @@ class SAINT(BaseModelTorch):
             X_encoded = X
             if self.args.objective == "binary":
                 predictions = torch.sigmoid(self.model(X_encoded))
+            elif self.args.objective == "classification":
+                predictions = torch.softmax(self.model(X_encoded), dim=1)
             return predictions
         else:
             X = {'data': X, 'mask': np.ones_like(X)}
