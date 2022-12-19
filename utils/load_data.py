@@ -111,6 +111,11 @@ def load_data(args):
         X, y = datasets.load_dataset(args.dataset).get_x_y()
         X, y = np.array(X), np.array(y)
 
+    elif args.dataset in []:
+        import random
+        X, y = pd.read_csv(args.dataset)[:-1], pd.read_csv(args.dataset)[-1]
+        X, y = random.shuffle(X), random.shuffle(y)
+
     else:
         raise AttributeError("Dataset \"" + args.dataset + "\" not available")
 
