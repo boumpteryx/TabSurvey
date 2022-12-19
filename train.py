@@ -13,7 +13,7 @@ from utils.parser import get_parser, get_given_parameters_parser
 
 from sklearn.model_selection import KFold, StratifiedKFold  # , train_test_split
 
-from comet_ml import Experiment
+from utils.comet import init_comet
 
 
 def cross_validation(model, X, y, args, save_model=False):
@@ -97,11 +97,15 @@ class Objective(object):
         trial_params = self.model_name.define_trial_parameters(trial, self.args)
 
         # Create model
-        model = self.model_name(trial_params, self.args)
+        args = {**vars(self.args), **trial_params}
+
+        experiment = init_comet(args=args, project_name="tabsurvey_train")
+        model = self.model_name(trial_params, self.args, experiment)
+
 
         # Cross validate the chosen hyperparameters
         sc, time = cross_validation(model, self.X, self.y, self.args)
-
+        experiment.log_metrics(sc.get_results())
         save_hyperparameters_to_file(self.args, trial_params, sc.get_results(), time)
 
         return sc.get_objective_result()
