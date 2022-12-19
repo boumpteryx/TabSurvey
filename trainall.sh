@@ -3,6 +3,7 @@ python train.py --config config/malware.yml --model_name DeepFM --optimize_hyper
 python train.py --config config/malware.yml --model_name VIME --optimize_hyperparameters
 python train.py --config config/malware.yml --model_name TabTransformer --optimize_hyperparameters
 python train.py --config config/malware.yml --model_name TORCHRLN --optimize_hyperparameters
+python train.py --config config/malware.yml --model_name ModelTree --optimize_hyperparameters
 
 # URL
 python train.py --config config/url.yml --model_name DeepFM --optimize_hyperparameters
