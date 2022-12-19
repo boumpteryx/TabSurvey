@@ -41,6 +41,10 @@ def str2model(model):
         from models.mlp import MLP
         return MLP
 
+    elif model == "TORCHRLN":
+        from models.mlp_rln import TORCHRLN
+        return TORCHRLN
+
     elif model == "ModelTree":
         from models.modeltree import ModelTree
         return ModelTree
