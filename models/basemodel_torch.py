@@ -71,17 +71,7 @@ class BaseModelTorch(BaseModel):
         for epoch in range(self.args.epochs):
             for i, (batch_X, batch_y) in enumerate(train_loader):
 
-                out = self.model(batch_X.to(self.device))
-
-                if self.args.objective == "regression" or self.args.objective == "binary":
-                    out = out.squeeze()
-
-                loss = loss_func(out, batch_y.to(self.device))
-                loss_history.append(loss.item())
-
-                optimizer.zero_grad()
-                loss.backward()
-                optimizer.step()
+                self.run_batch(batch_X, batch_y, loss_func, loss_history, optimizer)
 
             # Early Stopping
             val_loss = 0.0
@@ -115,6 +105,19 @@ class BaseModelTorch(BaseModel):
         # Load best model
         self.load_model(filename_extension="best", directory="tmp")
         return loss_history, val_loss_history
+
+    def run_batch(self, batch_X, batch_y, loss_func, loss_history, optimizer):
+        out = self.model(batch_X.to(self.device))
+
+        if self.args.objective == "regression" or self.args.objective == "binary":
+            out = out.squeeze()
+
+        loss = loss_func(out, batch_y.to(self.device))
+        loss_history.append(loss.item())
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
 
     def predict(self, X):
         if self.args.objective == "regression":
