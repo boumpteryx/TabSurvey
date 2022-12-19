@@ -15,8 +15,8 @@ import numpy as np
 
 class TabTransformer(BaseModelTorch):
 
-    def __init__(self, params, args):
-        super().__init__(params, args)
+    def __init__(self, params, args, experiment=None):
+        super().__init__(params, args, experiment)
 
         if args.cat_idx:
             self.num_idx = list(set(range(args.num_features)) - set(args.cat_idx))
@@ -106,6 +106,7 @@ class TabTransformer(BaseModelTorch):
 
                 loss = loss_func(out, batch_y.to(self.device))
                 loss_history.append(loss.item())
+                self.experiment.log_metric("train_loss",loss.item())
 
                 optimizer.zero_grad()
                 loss.backward()
@@ -132,6 +133,7 @@ class TabTransformer(BaseModelTorch):
                 val_dim += 1
             val_loss /= val_dim
             val_loss_history.append(val_loss.item())
+            self.experiment.log_metric("validation_loss",val_loss.item())
 
             print("Epoch %d: Val Loss %.5f" % (epoch, val_loss))
 

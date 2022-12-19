@@ -99,6 +99,13 @@ class DeepFM(BaseModelTorch):
                                                         validation_data=(X_val_dict, y_val), labels=labels,
                                                         early_stopping=True,
                                                         patience=self.args.early_stopping_rounds)
+
+        for l in loss_history:
+            self.experiment.log_metric("train_loss", l)
+
+        for l in val_loss_history:
+            self.experiment.log_metric("validation_loss", l)
+
         return loss_history, val_loss_history
 
     def predict_helper(self, X, keep_grad=False):

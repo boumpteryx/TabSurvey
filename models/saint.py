@@ -132,6 +132,7 @@ class SAINT(BaseModelTorch):
                 optimizer.step()
 
                 loss_history.append(loss.item())
+                self.experiment.log_metric("train_loss",loss.item())
 
                 # print("Loss", loss.item())
 
@@ -163,6 +164,7 @@ class SAINT(BaseModelTorch):
             val_loss /= val_dim
 
             val_loss_history.append(val_loss.item())
+            self.experiment.log_metric("validation_loss",val_loss.item())
 
             print("Epoch", epoch, "loss", val_loss.item())
 
