@@ -53,7 +53,7 @@ class BaseModelTorch(BaseModel):
             loss_func = nn.CrossEntropyLoss()
         else:
             loss_func = nn.BCEWithLogitsLoss()
-            loss_func = BalancedBCELossPytorch(self.dataset)
+            #loss_func = BalancedBCELossPytorch(self.dataset)
             y = y.float()
             y_val = y_val.float()
 
