@@ -25,8 +25,8 @@ from models.saint_lib.augmentations import embed_data_mask
 
 class SAINT(BaseModelTorch):
 
-    def __init__(self, params, args):
-        super().__init__(params, args)
+    def __init__(self, params, args, experiment=None):
+        super().__init__(params, args, experiment)
         if args.cat_idx:
             num_idx = list(set(range(args.num_features)) - set(args.cat_idx))
             # Appending 1 for CLS token, this is later used to generate embeddings.

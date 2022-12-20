@@ -20,8 +20,8 @@ from utils.io_utils import get_output_path
 
 class VIME(BaseModelTorch):
 
-    def __init__(self, params, args):
-        super().__init__(params, args)
+    def __init__(self, params, args, experiment=None):
+        super().__init__(params, args, experiment)
 
         self.model_self = VIMESelf(args.num_features).to(self.device)
         self.model_semi = VIMESemi(args, args.num_features, args.num_classes).to(self.device)

@@ -14,8 +14,8 @@ from models.basemodel_torch import BaseModelTorch
 
 class TORCHRLN(BaseModelTorch):
 
-    def __init__(self, params, args):
-        super().__init__(params, args)
+    def __init__(self, params, args, experiment=None):
+        super().__init__(params, args, experiment)
 
         self.dataset = args.dataset
         lr = self.params['learning_rate']
