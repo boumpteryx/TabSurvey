@@ -72,11 +72,10 @@ def cross_validation(model, X, y, args, save_model=False):
         save_results_to_file(args, sc.get_results(),
                              train_timer.get_average_time(), test_timer.get_average_time(),
                              model.params)
-    if args.model_name != "RLN":
-        f = open("output_final/model_" + args.dataset + "_" + args.model_name + "_params.json", "w")
-        f.write(str(curr_model.params))
-        f.close()
-        torch.save(curr_model, "output_final/model_" + args.dataset + "_" + args.model_name + "_final.pt")
+    # f = open("output_final/model_" + args.dataset + "_" + args.model_name + "_params.json", "w")
+    # f.write(str(curr_model.params))
+    # f.close()
+    # torch.save(curr_model, "output_final/model_" + args.dataset + "_" + args.model_name + "_final.pt")
 
     return sc, (train_timer.get_average_time(), test_timer.get_average_time())
 
