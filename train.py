@@ -3,7 +3,8 @@ import sys
 
 import optuna
 import torch
-
+from optuna.trial import TrialState
+from optuna._callbacks import MaxTrialsCallback, RetryFailedTrialCallback
 from models import str2model
 from utils.load_data import load_data
 from utils.scorer import get_scorer
@@ -124,7 +125,21 @@ def main(args):
                                 study_name=study_name,
                                 storage=storage_name,
                                 load_if_exists=True)
-    study.optimize(Objective(args, model_name, X, y), n_trials=args.n_trials)
+    
+    n_completed = len(study.get_trials(states=(TrialState.COMPLETE,)))
+    n_to_finish = args.n_trials
+    print(f"{n_completed} already completed")
+    if n_completed < n_to_finish:
+        study.optimize(
+            Objective(args, model_name, X, y), 
+            n_trials=None,
+            callbacks=[
+                MaxTrialsCallback(
+                    n_to_finish,
+                    states=(TrialState.COMPLETE,),
+                ),        
+            ],
+        )
     print("Best parameters:", study.best_trial.params)
 
     # Run best trial again and save it!
