@@ -1,18 +1,18 @@
 # General parameters
-dataset: lcld_v2_time
+dataset: wids
 objective: binary # Don't change
 
 # Optuna parameters - https://optuna.org/
 n_trials: 2
 direction: maximize
 
-# Training parameters
-early_stopping_rounds: 20
-
 # GPU parameters
-use_gpu: True
+use_gpu: False
 gpu_ids: [0]
 data_parallel: True
+
+# Training parameters
+early_stopping_rounds: 20
 
 # Cross validation parameters
 num_splits: 3
@@ -27,6 +27,6 @@ one_hot_encode: False
 
 # About the data
 num_classes: 1  # for classification
-num_features: 28
-cat_idx: [6,8,9,16,17]
-cat_dims: [6,3,14,2,2]
+num_features: 108
+cat_idx: [3, 4, 6, 7, 8, 9, 105, 106, 107]
+cat_dims: [7, 3, 16, 6, 3, 8, 11, 10, 111]
