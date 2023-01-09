@@ -159,14 +159,14 @@ class SAINT(BaseModelTorch):
                     else:
                         y_gts = y_gts.to(self.device).float()
 
-                    val_loss += criterion(y_outs, y_gts)
+                    val_loss += criterion(y_outs, y_gts).item()
                     val_dim += 1
             val_loss /= val_dim
 
-            val_loss_history.append(val_loss.item())
-            self.experiment.log_metric("validation_loss",val_loss.item())
+            val_loss_history.append(val_loss)
+            self.experiment.log_metric("validation_loss",val_loss)
 
-            print("Epoch", epoch, "loss", val_loss.item())
+            print("Epoch", epoch, "loss", val_loss)
 
             if val_loss < min_val_loss:
                 min_val_loss = val_loss
