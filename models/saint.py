@@ -36,7 +36,7 @@ class SAINT(BaseModelTorch):
             cat_dims = np.array([1])
 
         # Decreasing some hyperparameter to cope with memory issues
-        dim = self.params["dim"]
+        dim = self.params["dim"] if args.num_features < 20000 else 8
         self.batch_size = self.args.batch_size
 
         print("Using dim %d and batch size %d" % (dim, self.batch_size))
