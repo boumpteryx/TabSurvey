@@ -38,7 +38,8 @@ class SAINT(BaseModelTorch):
         # Decreasing some hyperparameter to cope with memory issues
         dim = self.params["dim"] if args.num_features < 20000 else 8
         self.batch_size = self.args.batch_size
-
+        depth = self.params["depth"] if args.num_features < 20000 else 3
+        heads= self.params["heads"] if args.num_features < 20000 else 4
         print("Using dim %d and batch size %d" % (dim, self.batch_size))
 
         self.model = SAINTModel(
@@ -46,8 +47,8 @@ class SAINT(BaseModelTorch):
             num_continuous=len(num_idx),
             dim=dim,
             dim_out=1,
-            depth=self.params["depth"],  # 6
-            heads=self.params["heads"],  # 8
+            depth=depth,  # 6
+            heads=heads,  # 8
             attn_dropout=self.params["dropout"],  # 0.1
             ff_dropout=self.params["dropout"],  # 0.1
             mlp_hidden_mults=(4, 2),
